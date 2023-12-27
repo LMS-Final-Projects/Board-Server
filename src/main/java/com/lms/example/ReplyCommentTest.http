@@ -1,0 +1,79 @@
+### 공지사항 대댓글 보기
+GET http://localhost:1001/api/v1/replies/notices/1
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+
+### 공지 사항 대댓글 작성
+POST http://localhost:1001/api/v1/replies/notices
+Content-Type: application/json
+
+{
+  "memberId": "5fc2b170-3901-4891-a9cf-ca47f0efcbe4",
+  "commentId": 2,
+  "comment": "ㅎㅇ"
+}
+
+
+### 공지사항 대댓글 삭제 : 실제 삭제하는게 아니라 comment 값을 "삭제된 댓글입니다."로 만듦.
+POST http://localhost:1001/api/v1/replies/notices/delete
+Content-Type: application/json
+
+{ "replyCommentId": 1,
+  "memberId": "5fc2b170-3901-4891-a9cf-ca47f0efcbe4"
+}
+
+
+### 공지사항 대댓글 수정
+POST http://localhost:1000/api/v1/replies/notices/info
+Content-Type: application/json
+
+{ "lectureId" : "1",
+"memberId" : "user_id",
+"email" : "user_email",
+"title" : " lecture_name",
+"fileUrl" : ""
+}
+
+
+### 강의 게시판 대댓글 보기
+GET http://localhost:1000/api/v1/replies/classes/1
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+### 강의 게시판 대댓글 작성
+POST http://localhost:1000/api/v1/replies/classes
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+### 강의 게시판 대댓글 삭제 : 실제 삭제하는게 아니라 comment 값을 "삭제된 댓글입니다."로 만듦.
+POST http://localhost:1000/api/v1/replies/classes/delete
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+### 강의 게시판 대댓글 수정
+POST http://localhost:1000/api/v1/replies/classes/info
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}

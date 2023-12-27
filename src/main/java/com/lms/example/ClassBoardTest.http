@@ -1,0 +1,69 @@
+### 강의 게시판 보기
+GET http://localhost:1000/api/v1/classes/1
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+### 강의 게시판 생성
+POST http://localhost:1000/api/v1/classes
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+### 강의게시판 정보변경
+POST http://localhost:1000/api/v1/classes/info
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+### 강의 파일 보기
+GET http://localhost:1000/api/v1/classes/getClassFile
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+### 강의 파일 업로드
+POST http://localhost:1000/api/v1/classes/uploadClassFile
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+### 강의 파일 다운로드
+POST http://localhost:1000/api/v1/classes/downloadClassFile
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+### 강의 파일 삭제
+POST http://localhost:1000/api/v1/classes/deleteClassFile
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+

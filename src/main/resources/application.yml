@@ -1,12 +1,12 @@
 server:
-  port: 0
+  port: 1001
 
 spring:
   application:
-    name: SCHEDULE-SERVER
+    name: BOARD-SERVER
 
   datasource:
-    url: jdbc:mysql://localhost:3306/schedule?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/board?serverTimezone=Asia/Seoul
     username: root
     password: 1q2w3e4r!!
   jpa:
@@ -14,10 +14,10 @@ spring:
       ddl-auto: create
     show-sql: true
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
-#  instance:
-#    prefer-ip-address: true
-#    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
