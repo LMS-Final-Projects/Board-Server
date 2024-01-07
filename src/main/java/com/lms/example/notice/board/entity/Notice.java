@@ -37,6 +37,7 @@ public class Notice {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-
-
+    public void setNoticeFiles(List<NoticeFiles> noticeFiles) {
+        this.noticeFiles = noticeFiles;
+    }
 }

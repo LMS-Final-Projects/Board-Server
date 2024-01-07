@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,38 +18,28 @@ import java.time.LocalDateTime;
 public class Lecture {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer lectureId;
+    @Column(nullable = false)
+    private String memberId;
     @Column(nullable = false)
     private String lectureName;
-    private Status status;
     @Column(nullable = false)
-    private Integer maximumNumber;
+    private String professorName;
     @Column(nullable = false)
     private Integer score;
-    private String lectureComment;
     @Column(nullable = false)
-    private LocalDateTime lectureDate;
+    private Integer startTime;
+    @ElementCollection
+    private List<Integer> classTimes; // 해당 교시
+    @Column
+    private DayOfWeek dayOfWeek;
+    @Column
+    private Integer maximumNumber;
+    @Column
+    private Integer year;
     @Enumerated(EnumType.STRING)
     private Semester semester;
-    private Long roomId;
-    private Long majorId;
-    private String professorId;
+    @Column
+    private String contents;
 
-    @Override
-    public String toString() {
-        return "Lecture{" +
-                "id=" + id +
-                ", lectureName='" + lectureName + '\'' +
-                ", status=" + status +
-                ", maximumNumber=" + maximumNumber +
-                ", score=" + score +
-                ", lectureComment='" + lectureComment + '\'' +
-                ", lectureDate=" + lectureDate +
-                ", semester=" + semester +
-                ", room=" + roomId +
-                ", major=" + majorId +
-                ", professor=" + professorId +
-                '}';
-    }
 }

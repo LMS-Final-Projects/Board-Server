@@ -4,7 +4,6 @@ package com.lms.example.notice.board.controller;
 import com.lms.example.global.response.LmsResponse;
 import com.lms.example.notice.board.dto.request.ClassCreateRequest;
 import com.lms.example.notice.board.dto.request.ClassFileRequest;
-import com.lms.example.notice.board.dto.request.ClassUpdateRequest;
 import com.lms.example.notice.board.dto.response.ClassBoardRes;
 import com.lms.example.notice.board.service.BoardService;
 
@@ -27,7 +26,7 @@ public class BoardController {
 
     //강의 게시판 보기
     @GetMapping("/{id}")
-    public LmsResponse<ClassBoardRes> getClass(@PathVariable("id") UUID id){
+    public LmsResponse<ClassBoardRes> getClass(@PathVariable("id") Integer id){
         ClassBoardRes aClass = boardService.getClass(id);
         return new LmsResponse<>(HttpStatus.OK, aClass, "서비스 성공", "", LocalDateTime.now());
 
@@ -41,19 +40,18 @@ public class BoardController {
     }
 
     //강의게시판 정보변경
-    @PostMapping("/info")
-    public LmsResponse<ClassBoardRes> updateClass(@RequestBody ClassUpdateRequest classUpdateRequest){
-        ClassBoardRes classBoardRes = boardService.updateClass(classUpdateRequest);
-        return new LmsResponse<>(HttpStatus.OK, classBoardRes, "서비스 성공", "", LocalDateTime.now());
-    }
+//    @PostMapping("/info")
+//    public LmsResponse<ClassBoardRes> updateClass(@RequestBody ClassUpdateRequest classUpdateRequest){
+//        ClassBoardRes classBoardRes = boardService.updateClass(classUpdateRequest);
+//        return new LmsResponse<>(HttpStatus.OK, classBoardRes, "서비스 성공", "", LocalDateTime.now());
+//    }
 
 
     //강의 파일 보기
-    @GetMapping("/getClassFile")
+    @PostMapping("/getClassFile")
     public LmsResponse<List<String>> getClassFile(@RequestBody ClassFileRequest request){
         List<String> classFile = boardService.getClassFile(request);
         return new LmsResponse<>(HttpStatus.OK, classFile, "서비스 성공", "", LocalDateTime.now());
-
     }
     //강의 파일 업로드
     @PostMapping("/uploadClassFile")

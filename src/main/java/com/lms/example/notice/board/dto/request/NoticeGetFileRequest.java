@@ -11,6 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class NoticeGetFileRequest {
 
-    private String adminId;
-    private Long noticeId;
+    private String noticeId;
 }

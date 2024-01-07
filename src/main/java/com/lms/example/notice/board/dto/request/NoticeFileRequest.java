@@ -9,8 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class NoticeFileRequest {
 
-    private String adminId;
-    private Long noticeId;
+    private String noticeId;
     private String fileName;
     private MultipartFile file;
 }

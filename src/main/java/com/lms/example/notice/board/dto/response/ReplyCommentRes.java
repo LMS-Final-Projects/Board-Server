@@ -17,9 +17,11 @@ public class ReplyCommentRes {
     private String memberName;
     private LocalDateTime updateAt;
     private Long commentId;
+    private UUID boardId;
 
     public ReplyCommentRes(ReplyComments comments) {
         this.id = comments.getId();
+        this.boardId = comments.getBoardId();
         this.memberId = comments.getMember().getId();
         this.memberName =comments.getMember().getName();
         this.comments = comments.getComments();

@@ -13,18 +13,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class ClassCreateRequest {
-    private Long lectureId;
+    private Integer lectureId;
     private String memberId;
-    private String email;
-    private String title;
-    private String fileUrl;
 
     public ClassBoards toEntity() {
         return ClassBoards.builder()
                 .lectureId(lectureId)
                 .member(Member.builder().id(memberId).build())
-                .email(email)
-                .title(title)
                 .createAt(LocalDateTime.now())
                 .build();
     }

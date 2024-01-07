@@ -56,11 +56,11 @@ public class NoticeController {
     //공지사항 파일 업로드
     @PostMapping("/uploadNoticeFile")
 
-    public LmsResponse<String> uploadNoticeFile(
+    public LmsResponse<Void> uploadNoticeFile(
             @ModelAttribute NoticeFileRequest noticeFileRequest
     ) {
-        String s = noticeService.uploadNoticeFile(noticeFileRequest);
-        return new LmsResponse<>(HttpStatus.OK, s, "서비스 성공", "", LocalDateTime.now());
+        noticeService.uploadNoticeFile(noticeFileRequest);
+        return new LmsResponse<>(HttpStatus.OK, null, "서비스 성공", "", LocalDateTime.now());
     }
 
 

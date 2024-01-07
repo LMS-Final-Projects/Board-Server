@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class ReplyCommentSaveRequest {
     private String memberId;
     private Long commentId;
+    private String boardId;
     private String comment;
 
     public ReplyComments toEntity(){

@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query("SELECT m from Member as m where m.id = :id")
-    Member findByUUId(@Param("id") UUID id);
+    Member findByUUId(@Param("id") String id);
 }

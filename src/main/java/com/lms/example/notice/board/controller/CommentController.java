@@ -27,8 +27,8 @@ public class CommentController {
 
 
     //공지사항 댓글 보기
-    @GetMapping("/{id}")
-    public LmsResponse<List<CommentRes>> getComments(@PathVariable("id") UUID id){
+    @GetMapping("/notices/{id}")
+    public LmsResponse<List<CommentRes>> getComments(@PathVariable("id") String id){
         List<CommentRes> comments = noticeService.getComments(id);
         return new LmsResponse<>(HttpStatus.OK, comments, "서비스 성공", "", LocalDateTime.now());
 
@@ -58,7 +58,7 @@ public class CommentController {
 
     //강의 게시판 댓글 보기
     @GetMapping("/{boardId}")
-    public LmsResponse<List<CommentRes>> getClassComments(@PathVariable("id") UUID boardId){
+    public LmsResponse<List<CommentRes>> getClassComments(@PathVariable("boardId") String boardId){
         List<CommentRes> classComments = boardService.getClassComments(boardId);
         return new LmsResponse<>(HttpStatus.OK, classComments , "서비스 성공", "", LocalDateTime.now());
     }

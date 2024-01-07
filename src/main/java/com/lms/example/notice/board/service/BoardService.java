@@ -15,6 +15,8 @@ import com.lms.example.notice.board.repository.ClassBoardRepository;
 import com.lms.example.notice.board.repository.CommentRepository;
 import com.lms.example.notice.board.repository.MemberRepository;
 import com.lms.example.notice.board.repository.ReplyCommentRepository;
+import com.lms.example.notice.lecture.entity.Lecture;
+import com.lms.example.notice.lecture.repostiory.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
@@ -41,6 +43,7 @@ public class BoardService {
     private final CommentRepository commentRepository;
     private final ReplyCommentRepository replyCommentRepository;
     private final MemberRepository memberRepository;
+    private final LectureRepository lectureRepository;
 
     private final String fileDirectory = "C:/LmsFile";
 
@@ -65,8 +68,8 @@ public class BoardService {
 
     //강의 게시판 보기
     @Transactional
-    public ClassBoardRes getClass(UUID classId){
-        ClassBoards classBoards = classBoardRepository.findByClassId(classId).orElseThrow(() -> new NotFoundException("게시판이 없습니다."));
+    public ClassBoardRes getClass(Integer lectureId){
+        ClassBoards classBoards = classBoardRepository.findByLectureId(lectureId).orElseThrow(() -> new NotFoundException("게시판이 없습니다."));
         ClassBoardRes classBoardRes = new ClassBoardRes(classBoards);
         return classBoardRes;
     }
@@ -75,13 +78,17 @@ public class BoardService {
     @Transactional
     public ClassBoardRes writeClass(ClassCreateRequest classCreateRequest){
         Member member = memberRepository.findById(classCreateRequest.getMemberId()).orElseThrow(() -> new NotFoundException("회원 정보가 없습니다."));
+        Lecture lecture = lectureRepository.findById(classCreateRequest.getLectureId()).orElseThrow(() -> new NotFoundException("강의 정보가 없습니다."));
+
         ClassBoards save = classBoardRepository.save(
                 ClassBoards.builder()
                         .lectureId(classCreateRequest.getLectureId())
-                        .email(classCreateRequest.getEmail())
-                        .title(classCreateRequest.getTitle())
+                        .title(lecture.getLectureName())
                         .member(member)
+                        .professorName(lecture.getProfessorName())
                         .createAt(LocalDateTime.now())
+                        .contents(lecture.getContents())
+                        .startTime(lecture.getStartTime())
                         .build()
         );
         ClassBoardRes classBoardRes = new ClassBoardRes(save);
@@ -89,21 +96,21 @@ public class BoardService {
     }
 
     //강의게시판 업데이트
-    @Transactional
-    public ClassBoardRes updateClass(ClassUpdateRequest classUpdateRequest){
-        Member member = memberRepository.findById(classUpdateRequest.getMemberId()).orElseThrow(() -> new NotFoundException("회원 정보가 없습니다."));
-        classBoardRepository.findByClassId(classUpdateRequest.getClassId()).orElseThrow(() -> new NotFoundException("게시판 정보가 없습니다."));
-        ClassBoards save = classBoardRepository.save(
-                ClassBoards.builder()
-                        .classId(classUpdateRequest.getClassId())
-                        .title(classUpdateRequest.getTitle())
-                        .member(member)
-                        .updateAt(LocalDateTime.now())
-                        .build()
-        );
-        ClassBoardRes classBoardRes = new ClassBoardRes(save);
-        return classBoardRes;
-    }
+//    @Transactional
+//    public ClassBoardRes updateClass(ClassUpdateRequest classUpdateRequest){
+//        Member member = memberRepository.findById(classUpdateRequest.getMemberId()).orElseThrow(() -> new NotFoundException("회원 정보가 없습니다."));
+//        classBoardRepository.findByClassId(classUpdateRequest.getClassId()).orElseThrow(() -> new NotFoundException("게시판 정보가 없습니다."));
+//        ClassBoards save = classBoardRepository.save(
+//                ClassBoards.builder()
+//                        .classId(classUpdateRequest.getClassId())
+//                        .title(classUpdateRequest.getTitle())
+//                        .member(member)
+//                        .updateAt(LocalDateTime.now())
+//                        .build()
+//        );
+//        ClassBoardRes classBoardRes = new ClassBoardRes(save);
+//        return classBoardRes;
+//    }
 
 
 
@@ -189,8 +196,8 @@ public class BoardService {
 
     //강의 게시판 댓글 조회
     @Transactional
-    public List<CommentRes> getClassComments(UUID boardId){
-        List<Comments> commentsList = commentRepository.findByBoardId(boardId).get();
+    public List<CommentRes> getClassComments(String boardId){
+        List<Comments> commentsList = commentRepository.findByBoardId(UUID.fromString(boardId)).get();
         List<CommentRes> commentResList = new ArrayList<>();
 
         for(Comments comments : commentsList) {
@@ -207,6 +214,7 @@ public class BoardService {
     @Transactional
     public CommentRes writeClassComments(CommentSaveRequest commentSaveRequest){
         Member member = memberRepository.findById(commentSaveRequest.getMemberId()).orElseThrow(() -> new NotFoundException("유저 정보가 없습니다."));
+        System.out.println("멤버 찾기 성공");
         Comments save = commentRepository.save(
                 Comments
                         .builder()
@@ -235,8 +243,8 @@ public class BoardService {
 
     //강의 게시판 대댓글 보기
     @Transactional
-    public List<ReplyCommentRes> getClassReplyComments(Long commentId){
-        List<ReplyComments> byCommentId = replyCommentRepository.findByCommentId(commentId);
+    public List<ReplyCommentRes> getClassReplyComments(String boardId){
+        List<ReplyComments> byCommentId = replyCommentRepository.findByBoardId(UUID.fromString(boardId));
         List<ReplyCommentRes> replyCommentList = new ArrayList<>();
 
         for(ReplyComments replyComment : byCommentId) {
@@ -255,6 +263,7 @@ public class BoardService {
         ReplyComments save = replyCommentRepository.save(
                 ReplyComments
                         .builder()
+                        .boardId(UUID.fromString(replyCommentSaveRequest.getBoardId()))
                         .commentId(replyCommentSaveRequest.getCommentId())
                         .comments(replyCommentSaveRequest.getComment())
                         .member(member)

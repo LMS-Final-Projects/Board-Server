@@ -14,13 +14,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class NoticeUpdateRequest {
-    private UUID noticeId;
+    private String noticeId;
     private String memberId;
     private String title;
 
     public Notice toEntity() {
         return Notice.builder()
-                .noticeId(noticeId)
                 .title(title)
                 .updateAt(LocalDateTime.now())
                 .build();

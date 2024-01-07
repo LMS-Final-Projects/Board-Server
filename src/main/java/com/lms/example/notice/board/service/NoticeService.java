@@ -98,7 +98,7 @@ public class NoticeService {
         Member member = memberRepository.findById(noticeUpdateRequest.getMemberId()).orElseThrow(() -> new NotFoundException("유저 정보가 없습니다."));
         adminBoardRepository.findNoticeByMemberId(noticeUpdateRequest.getMemberId()).orElseThrow(() -> new NotFoundException("공지사항이 없습니다."));
         Notice save = adminBoardRepository.save(Notice.builder()
-                .noticeId(noticeUpdateRequest.getNoticeId())
+                .noticeId(UUID.fromString(noticeUpdateRequest.getNoticeId()))
                 .title(noticeUpdateRequest.getTitle())
                 .updateAt(LocalDateTime.now())
                 .member(member)
@@ -169,6 +169,24 @@ public class NoticeService {
             String fileName = generateNoticeFileName(request);
             Path filePath = Path.of(fileDirectory, fileName);
 
+            //기존 경로 가져오기
+            Notice notice = adminBoardRepository.findById(UUID.fromString(request.getNoticeId())).orElseThrow(() -> new NotFoundException("공지사항이 없습니다."));
+
+            //파일경로를 리스트로 저장
+            List<NoticeFiles> noticeFiles =  new ArrayList<>();
+
+            // 새로운 파일 URL 추가
+            NoticeFiles newNoticeFile = NoticeFiles.builder()
+                    .fileUrl(filePath.toString()) // 이 부분은 파일 경로 대신에 파일 URL로 변경
+                    .notice(notice)
+                    .build();
+            noticeFiles.add(newNoticeFile);
+
+            //파일 경로를 기존 공지사항에 저장
+
+            notice.setNoticeFiles(noticeFiles);
+            adminBoardRepository.save(notice);
+
             // 파일 저장
             Files.copy(request.getFile().getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -203,8 +221,8 @@ public class NoticeService {
 
     //댓글 보기
     @Transactional
-    public List<CommentRes> getComments(UUID id){
-        List<Comments> commentsList = commentRepository.findById(id).get();
+    public List<CommentRes> getComments(String id){
+        List<Comments> commentsList = commentRepository.findById(UUID.fromString(id)).get();
         List<CommentRes> commentResList = new ArrayList<>();
 
         for(Comments comments : commentsList) {
@@ -244,8 +262,8 @@ public class NoticeService {
 
     //공지 사항 대댓글 보기
     @Transactional
-    public List<ReplyCommentRes> getNoticeReplyComments(Long commentId){
-        List<ReplyComments> byCommentId = replyCommentRepository.findByCommentId(commentId);
+    public List<ReplyCommentRes> getNoticeReplyComments(String boardId){
+        List<ReplyComments> byCommentId = replyCommentRepository.findByBoardId(UUID.fromString(boardId));
         List<ReplyCommentRes> replyCommentList = new ArrayList<>();
 
         for(ReplyComments replyComment : byCommentId) {
@@ -267,6 +285,7 @@ public class NoticeService {
                 .commentId(replyCommentSaveRequest.getCommentId())
                 .comments(replyCommentSaveRequest.getComment())
                 .createAt(LocalDateTime.now())
+                        .boardId(UUID.fromString(replyCommentSaveRequest.getBoardId()))
                         .member(member)
                 .build());
         ReplyCommentRes replyCommentRes = new ReplyCommentRes(save);
@@ -275,9 +294,8 @@ public class NoticeService {
 
     //공지사항 대댓글 삭제 : 실제 삭제하는게 아니라 comment 값을 "삭제된 댓글입니다."로 만듦.
     @Transactional
-    public String deleteNoticeReplyComments(ReplyCommentDeleteRequest replyCommentDeleteRequest){
+    public void deleteNoticeReplyComments(ReplyCommentDeleteRequest replyCommentDeleteRequest){
         changeNullNoticeReplyComment(replyCommentDeleteRequest);
-        return "Success Delete!";
     }
 
     //공지사항 대댓글 수정
@@ -313,9 +331,10 @@ public class NoticeService {
         try {
             Member member = memberRepository.findById(commentDeleteRequest.getMemberId()).orElseThrow(() -> new NotFoundException("유저 정보가 없습니다."));
 
-            commentRepository.findByMemberId(commentDeleteRequest.getCommentId(), commentDeleteRequest.getMemberId()).orElseThrow(() -> new NotFoundException("삭제할 댓글이 없습니다."));
+            Comments comments = commentRepository.findByMemberId(commentDeleteRequest.getCommentId(), commentDeleteRequest.getMemberId()).orElseThrow(() -> new NotFoundException("삭제할 댓글이 없습니다."));
             commentRepository.save(Comments
                     .builder()
+                    .id(comments.getId())
                     .comments("삭제된 댓글입니다.")
                     .updateAt(LocalDateTime.now())
                     .member(member)
@@ -370,8 +389,11 @@ public class NoticeService {
 
     private String generateNoticeFileName(NoticeFileRequest request) {
         // 파일명 규칙: noticeId_originalFilename
+        // noticeId를 숫자로 변환, 지금 현재 UUID는 스트링으로 포맷으로 변환이 안된다고 합니다.
+//        UUID uuid = UUID.fromString(request.getNoticeId());
+
         return String.format("%02d_%s",
-                request.getNoticeId(),
+//                uuid,
                 request.getFileName());
     }
 

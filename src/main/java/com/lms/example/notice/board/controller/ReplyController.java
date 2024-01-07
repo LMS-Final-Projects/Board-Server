@@ -25,9 +25,9 @@ public class ReplyController {
     private final BoardService boardService;
 
     //공지사항 대댓글 보기
-    @GetMapping("/notices/{commentId}")
-    public LmsResponse<List<ReplyCommentRes>> getNoticeReplyComments(@PathVariable("commentId")Long commentId){
-        List<ReplyCommentRes> noticeReplyComments = noticeService.getNoticeReplyComments(commentId);
+    @GetMapping("/notices/{boardId}")
+    public LmsResponse<List<ReplyCommentRes>> getNoticeReplyComments(@PathVariable("boardId")String boardId){
+        List<ReplyCommentRes> noticeReplyComments = noticeService.getNoticeReplyComments(boardId);
         return new LmsResponse<>(HttpStatus.OK, noticeReplyComments, "서비스 성공", "", LocalDateTime.now());
 
     }
@@ -41,9 +41,9 @@ public class ReplyController {
 
     //공지사항 대댓글 삭제 : 실제 삭제하는게 아니라 comment 값을 "삭제된 댓글입니다."로 만듦.
     @PostMapping("/notices/delete")
-    public LmsResponse<String> deleteNoticeReplyComments(@RequestBody ReplyCommentDeleteRequest replyCommentDeleteRequest){
-        String s = noticeService.deleteNoticeReplyComments(replyCommentDeleteRequest);
-        return new LmsResponse<>(HttpStatus.OK, s, "서비스 성공", "", LocalDateTime.now());
+    public LmsResponse<Void> deleteNoticeReplyComments(@RequestBody ReplyCommentDeleteRequest replyCommentDeleteRequest){
+        noticeService.deleteNoticeReplyComments(replyCommentDeleteRequest);
+        return new LmsResponse<>(HttpStatus.OK, null, "서비스 성공", "", LocalDateTime.now());
     }
 
     //공지사항 대댓글 수정
@@ -54,9 +54,9 @@ public class ReplyController {
     }
 
     //강의 게시판 대댓글 보기
-    @GetMapping("/classes/{commentId}")
-    public LmsResponse<List<ReplyCommentRes>> getClassReplyComments(@PathVariable("commentId")Long commentId){
-        List<ReplyCommentRes> classReplyComments = boardService.getClassReplyComments(commentId);
+    @GetMapping("/classes/{boardId}")
+    public LmsResponse<List<ReplyCommentRes>> getClassReplyComments(@PathVariable("boardId")String boardId){
+        List<ReplyCommentRes> classReplyComments = boardService.getClassReplyComments(boardId);
         return new LmsResponse<>(HttpStatus.OK, classReplyComments, "서비스 성공", "에러 없음", LocalDateTime.now());
 
     }

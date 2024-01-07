@@ -20,6 +20,7 @@ public class ReplyComments {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private Long commentId;
+    private UUID boardId;
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
