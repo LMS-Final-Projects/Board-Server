@@ -1,0 +1,79 @@
+### 공지사항 댓글 보기 get에서 uuid 넘겨주는법을 모르겠음.
+GET http://localhost:1001/api/v1/comments/notices/93fefaa8-0792-4516-ac60-099bfc37788b
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+
+### 공지 사항 댓글 작성
+POST http://localhost:1001/api/v1/comments/notices
+Content-Type: application/json
+
+{ "boardId" : "93fefaa8-0792-4516-ac60-099bfc37788b",
+  "memberId" : "5fc2b170-3901-4891-a9cf-ca47f0efcbe4",
+  "comment" : "하하"
+}
+
+
+### 공지사항 댓글 삭제 : 실제 삭제하는게 아니라 comment 값을 "삭제된 댓글입니다."로 만듦.
+POST http://localhost:1001/api/v1/comments/notices/delete
+Content-Type: application/json
+
+{
+  "memberId": "5fc2b170-3901-4891-a9cf-ca47f0efcbe4",
+  "commentId": 1
+}
+
+
+### 공지사항 댓글 수정
+POST http://localhost:1001/api/v1/comments/notices/info
+Content-Type: application/json
+
+{
+  "memberId": "5fc2b170-3901-4891-a9cf-ca47f0efcbe4",
+  "boardId": "93fefaa8-0792-4516-ac60-099bfc37788b",
+  "comment": "안녕",
+  "commentId": 2
+}
+
+
+### 강의 게시판 댓글 보기
+GET http://localhost:1000/api/v1/comments/classes/1
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+### 강의 게시판 댓글 작성
+POST http://localhost:1001/api/v1/comments/classes
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+### 강의 게시판 댓글 삭제 : 실제 삭제하는게 아니라 comment 값을 "삭제된 댓글입니다."로 만듦.
+POST http://localhost:1000/api/v1/comments/classes/delete
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+### 강의 게시판 댓글 수정
+POST http://localhost:1000/api/v1/comments/classes/info
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}

@@ -1,0 +1,10 @@
+### 공지사항 전체 보기
+GET http://localhost:1001/api/v1/manager/notices
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+### 강의 전체 보기
+GET http://localhost:1001/api/v1/manager/classes
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc

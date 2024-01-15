@@ -1,0 +1,84 @@
+### 공지사항 생성
+POST http://localhost:1001/api/v1/notices
+Content-Type: application/json
+
+{
+  "memberId": "5fc2b170-3901-4891-a9cf-ca47f0efcbe4",
+  "title": "첫글",
+  "content": "첫글 입니다.",
+  "fileUrls": []
+}
+
+
+### 공지사항 수정
+POST http://localhost:1001/api/v1/notices/info
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+
+### 공지사항 보기
+GET http://localhost:1001/api/v1/notices/f70a7589-b828-45e5-8cd1-fd15e0ebc454
+Accept: application/json
+Cookie:  AccessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGMxZDM4NC1kNzk5LTQ2MTAtOWVmNi1iYjNkYjVjMTEzNTgiLCJyb2xlIjoiU1RVREVOVCIsImV4cCI6MTY5ODk4NDI3NSwiaWF0IjoxNjk4OTgwNjc1fQ.mxFl_ktCYOxC-hhKRfBcDqaTqB9m3updpm6LZ_87EUc
+
+
+### 공지사항 삭제
+POST http://localhost:1001/api/v1/notices/delete
+Content-Type: application/json
+
+{
+  "noticeIds": ["f70a7589-b828-45e5-8cd1-fd15e0ebc454"]
+}
+
+
+### 강의 파일 목록 가져오기
+POST http://localhost:1000/api/v1/notices/getNoticeFile
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+### 강의 파일 업로드
+POST http://localhost:1000/api/v1/notices/uploadNoticeFile
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+
+### 강의 파일 다운로드
+POST http://localhost:1000/api/v1/notices/downloadNoticeFile
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
+
+### 강의 파일 삭제
+POST http://localhost:1000/api/v1/notices/downloadNoticeFile
+Content-Type: application/json
+
+{ "lectureId" : "1",
+  "memberId" : "user_id",
+  "email" : "user_email",
+  "title" : " lecture_name",
+  "fileUrl" : ""
+}
